@@ -5,7 +5,13 @@
     "license": "BSD3",
     "source-directories": [
         ".",
-        "src/"
+        "src/",
+        "src/app",
+        "src/app/actions",
+        "src/app/models",
+        "src/app/stores",
+        "src/app/subscriptions",
+        "src/app/views"
     ],
     "exposed-modules": [],
     "dependencies": {
