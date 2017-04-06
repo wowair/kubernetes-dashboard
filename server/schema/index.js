@@ -21,6 +21,42 @@ const PodItemMetadata = new GraphQLObjectType({
   },
 });
 
+const ContainerEnv = new GraphQLObjectType({
+  name: 'ContainerEnv',
+  fields: {
+    name: {
+      type: GraphQLString,
+    },
+    value: {
+      type: GraphQLString,
+    },
+  },
+});
+
+const Container = new GraphQLObjectType({
+  name: 'Container',
+  fields: {
+    name: {
+      type: GraphQLString,
+    },
+    image: {
+      type: GraphQLString,
+    },
+    env: {
+      type: new GraphQLList(GraphQLString),
+    },
+    terminationMessagePath: {
+      type: GraphQLString,
+    },
+    imagePullPolicy: {
+      type: GraphQLString,
+    },
+    args: {
+      type: new GraphQLList(GraphQLString),
+    },
+  },
+});
+
 const PodItemSpec = new GraphQLObjectType({
   name: 'PodItemSpec',
   fields: {
@@ -42,8 +78,68 @@ const PodItemSpec = new GraphQLObjectType({
     hostNetwork: {
       type: GraphQLBoolean,
     },
-    securityContext: {
-      type: PodItemSpecSecurityContext,
+  },
+});
+
+const PodItemStatusCondition = new GraphQLObjectType({
+  name: 'PodItemStatusCondition',
+  fields: {
+    type: {
+      type: GraphQLString,
+    },
+    status: {
+      type: GraphQLString,
+    },
+    lastProbeTime: {
+      type: GraphQLString,
+    },
+    lastTransitionTime: {
+      type: GraphQLString,
+    },
+  },
+});
+
+const PodItemStatusContainerStatusStateRunningState = new GraphQLObjectType({
+  name: 'PodItemStatusContainerStatusStateRunningState',
+  fields: {
+    startedAt: {
+      type: GraphQLString,
+    },
+  },
+});
+
+const PodItemStatusContainerStatusState = new GraphQLObjectType({
+  name: 'PodItemStatusContainerStatusState',
+  fields: {
+    running: {
+      type: PodItemStatusContainerStatusStateRunningState,
+    },
+  },
+});
+
+const PodItemStatusContainerStatus = new GraphQLObjectType({
+  name: 'PodItemStatusContainerStatus',
+  fields: {
+    name: {
+      type: GraphQLString,
+    },
+    state: {
+      type: PodItemStatusContainerStatusState,
+    },
+    ready: {
+      type: GraphQLBoolean,
+    },
+    restartCount: {
+      type: GraphQLInt,
+    },
+    image: {
+      type: GraphQLString,
+    },
+    imageID: {
+      type: GraphQLString,
+    },
+    containerID: {
+      type: GraphQLString,
     },
   },
 });
@@ -67,7 +163,7 @@ const PodItemStatus = new GraphQLObjectType({
       type: GraphQLString,
     },
     containerStatuses: {
-      type: new GraphQLList(PodItemStatusContainerStatuse),
+      type: new GraphQLList(PodItemStatusContainerStatus),
     },
   },
 });
@@ -124,7 +220,8 @@ module.exports = new GraphQLSchema({
       pods: {
         type: PodList,
         resolve: () => {
-          fetch();
+          return fetch('http://localhost:8001/api/v1/pods').then(res =>
+            res.json());
         },
       },
     },
