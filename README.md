@@ -1,3 +1,26 @@
+# Kubernetes dashboard
+
+### This project is still a work in progress, PRs welcome.
+
+### About
+The purpose of this project is to visualise the status of a kubernetes cluster.
+
+It creates a GraphQL proxy onto the kubernetes API and has a web app written in Elm.
+
+### Getting started
++ `yarn install --pure-lockfile`
++ `yarn run dev` for the server
++ see below for elm instructions
+
+### Adding a server dependency
++ `yarn add -E <package>`
+
+
+For instructions on the web app see below.
+==========================================
+
+====================================================
+
 This project is bootstrapped with [Create Elm App](https://github.com/halfzebra/create-elm-app).
 
 Below you will find some information on how to perform basic tasks.  
