@@ -1,6 +1,6 @@
 # Kubernetes dashboard
 
-### This project is still a work in progress, PRs welcome.
+### This project is still a work in progress, PRs welcome. Master may or may not be broken at any given time right now
 
 ### About
 The purpose of this project is to visualise the status of a kubernetes cluster.
