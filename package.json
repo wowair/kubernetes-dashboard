@@ -1,0 +1,29 @@
+{
+  "name": "robots",
+  "version": "1.0.0",
+  "description": "This project is bootstrapped with [Create Elm App](https://github.com/halfzebra/create-elm-app).",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arnarthor/robots.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arnarthor/robots/issues"
+  },
+  "homepage": "https://github.com/arnarthor/robots#readme",
+  "dependencies": {
+    "express": "4.15.2",
+    "express-graphql": "0.6.4",
+    "graphql": "0.9.2",
+    "node-fetch": "1.6.3"
+  }
+}
