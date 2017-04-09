@@ -43,7 +43,7 @@ const Container = new GraphQLObjectType({
       type: GraphQLString,
     },
     env: {
-      type: new GraphQLList(GraphQLString),
+      type: new GraphQLList(ContainerEnv),
     },
     terminationMessagePath: {
       type: GraphQLString,
