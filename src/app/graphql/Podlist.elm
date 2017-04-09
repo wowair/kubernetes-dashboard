@@ -10,34 +10,54 @@ type alias Podlist =
 
 
 type alias PodItem =
-    { spec : PodItemSpec
+    { status : PodItemStatus
     }
 
 
-type alias PodItemSpec =
-    { containers : List Container
+type alias PodItemStatus =
+    { containerStatuses : List ContainerStatus
     }
 
 
-type alias Container =
+type alias ContainerStatus =
     { name : String
+    , state : ContainerState
+    }
+
+
+type alias ContainerState =
+    { running : ContainerStateRunning
+    }
+
+
+type alias ContainerStateRunning =
+    { startedAt : String
     }
 
 
 podlistQuery : Request Query Podlist
 podlistQuery =
     let
-        container =
-            object Container
-                |> with (field "name" [] string)
+        containerStateRunning =
+            object ContainerStateRunning
+                |> with (field "startedAt" [] string)
 
-        podItemSpec =
-            object PodItemSpec
-                |> with (field "containers" [] (list container))
+        containerState =
+            object ContainerState
+                |> with (field "running" [] containerStateRunning)
+
+        containerStatuses =
+            object ContainerStatus
+                |> with (field "name" [] string)
+                |> with (field "state" [] containerState)
+
+        podItemStatus =
+            object PodItemStatus
+                |> with (field "containerStatuses" [] (list containerStatuses))
 
         podItem =
             object PodItem
-                |> with (field "spec" [] (podItemSpec))
+                |> with (field "status" [] (podItemStatus))
 
         podlist =
             object Podlist
