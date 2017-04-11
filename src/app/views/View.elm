@@ -26,7 +26,7 @@ view model =
                         )
 
                     Nothing ->
-                        []
+                        [ div [] [ text "loading..." ] ]
                 )
             ]
         ]
