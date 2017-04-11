@@ -7,10 +7,17 @@ The purpose of this project is to visualise the status of a kubernetes cluster.
 
 It creates a GraphQL proxy onto the kubernetes API and has a web app written in Elm.
 
+
+### Prerequisites
++ `npm install -g elm`
++ `npm install -g create-elm-app@0.3.2`
++ `foreman` or equivalent
+
+
 ### Getting started
 + `yarn install --pure-lockfile`
-+ `yarn run dev` for the server
-+ see below for elm instructions
++ `elm package install`
++ `foreman start`
 
 ### Adding a server dependency
 + `yarn add -E <package>`
