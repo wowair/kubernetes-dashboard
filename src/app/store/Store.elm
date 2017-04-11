@@ -19,6 +19,6 @@ sendServiceQuery =
         |> Task.attempt Action.ReceiveQueryResponse
 
 
-init : String -> ( Model, Cmd Msg )
-init path =
+init : ( Model, Cmd Msg )
+init =
     ( { pods = Nothing }, sendServiceQuery )
