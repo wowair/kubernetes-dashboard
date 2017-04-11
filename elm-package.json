@@ -8,6 +8,7 @@
         "src/",
         "src/app",
         "src/app/actions",
+        "src/app/api",
         "src/app/graphql",
         "src/app/models",
         "src/app/store",

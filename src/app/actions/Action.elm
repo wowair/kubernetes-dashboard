@@ -1,13 +1,8 @@
 module Action exposing (..)
 
+import Constants exposing (..)
 import Model exposing (Model)
-import Service exposing (ServiceResponse)
-
-
-type Msg
-    = NoOp
-    | ReceiveQueryResponse ServiceResponse
-    | UpdateServiceFilter String
+import ServiceQuery exposing (sendServiceQuery)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -21,3 +16,6 @@ update msg model =
 
         UpdateServiceFilter string ->
             ( { model | serviceFilter = string }, Cmd.none )
+
+        Poll _ ->
+            ( model, sendServiceQuery )

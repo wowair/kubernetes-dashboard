@@ -290,58 +290,64 @@ module.exports = new GraphQLSchema({
             .then(res => {
               const servicesWithNumberOfPods = res.items.reduce(
                 (accumulated, service) => {
-                  const serviceName = service.spec &&
-                    service.spec.containers &&
-                    service.spec.containers.filter(
-                      service => service.name !== 'getready'
-                    )[0].name;
-                  if (service.status.phase === 'Pending') {
-                    if (
-                      service.status.containerStatuses[0].state.waiting &&
-                      (service.status.containerStatuses[
-                        0
-                      ].state.waiting.reason === 'RunContainerError' ||
-                        service.status.containerStatuses[
+                  // This is a hack because I can't bother figuring this out right now.
+                  // TODO: fix this shit
+                  try {
+                    const serviceName = service.spec &&
+                      service.spec.containers &&
+                      service.spec.containers.filter(
+                        service => service.name !== 'getready'
+                      )[0].name;
+                    if (service.status.phase === 'Pending') {
+                      if (
+                        service.status.containerStatuses[0].state.waiting &&
+                        (service.status.containerStatuses[
                           0
-                        ].state.waiting.reason === 'ImagePullBackoff')
-                    ) {
+                        ].state.waiting.reason === 'RunContainerError' ||
+                          service.status.containerStatuses[
+                            0
+                          ].state.waiting.reason === 'ImagePullBackoff')
+                      ) {
+                        return Object.assign(accumulated, {
+                          [serviceName]: Object.assign(
+                            accumulated[serviceName] || {},
+                            {
+                              error: accumulated[serviceName] &&
+                                accumulated[serviceName].error
+                                ? accumulated[serviceName].error + 1
+                                : 1,
+                            }
+                          ),
+                        });
+                      }
+                    }
+                    if (!service.status.containerStatuses[0].ready) {
                       return Object.assign(accumulated, {
                         [serviceName]: Object.assign(
                           accumulated[serviceName] || {},
                           {
-                            error: accumulated[serviceName] &&
-                              accumulated[serviceName].error
-                              ? accumulated[serviceName].error + 1
+                            warning: accumulated[serviceName] &&
+                              accumulated[serviceName].warning
+                              ? accumulated[serviceName].warning + 1
                               : 1,
                           }
                         ),
                       });
                     }
-                  }
-                  if (!service.status.containerStatuses[0].ready) {
                     return Object.assign(accumulated, {
                       [serviceName]: Object.assign(
                         accumulated[serviceName] || {},
                         {
-                          warning: accumulated[serviceName] &&
-                            accumulated[serviceName].warning
-                            ? accumulated[serviceName].warning + 1
+                          healthy: accumulated[serviceName] &&
+                            accumulated[serviceName].healthy
+                            ? accumulated[serviceName].healthy + 1
                             : 1,
                         }
                       ),
                     });
+                  } catch (e) {
+                    return accumulated;
                   }
-                  return Object.assign(accumulated, {
-                    [serviceName]: Object.assign(
-                      accumulated[serviceName] || {},
-                      {
-                        healthy: accumulated[serviceName] &&
-                          accumulated[serviceName].healthy
-                          ? accumulated[serviceName].healthy + 1
-                          : 1,
-                      }
-                    ),
-                  });
                 },
                 {}
               );
