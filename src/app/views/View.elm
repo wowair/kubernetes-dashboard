@@ -1,8 +1,8 @@
 module View exposing (..)
 
 import Action exposing (Msg)
-import Html exposing (Html, div, img, text, input)
-import Html.Attributes exposing (src, style, placeholder)
+import Html exposing (Html, div, img, input, text)
+import Html.Attributes exposing (placeholder, src, style)
 import Model exposing (Model)
 
 
@@ -15,14 +15,33 @@ view model =
                 , input [ searchInput, placeholder "Search by service name" ] []
                 ]
             , div [ pods ]
-                [ div [ pod ]
-                    [ div [ podName ] [ text "booking " ] ]
-                , div [ pod ]
-                    [ div [ podName ] [ text "booking " ] ]
-                , div [ pod ]
-                    [ div [ podName ] [ text "booking " ] ]
-                ]
+                (case model.pods of
+                    Just response ->
+                        (case response of
+                            Result.Ok res ->
+                                List.map renderPod res.items
+
+                            Result.Err _ ->
+                                [ div [] [ text "oh noes!" ] ]
+                        )
+
+                    Nothing ->
+                        []
+                )
             ]
+        ]
+
+
+renderPod item =
+    div [ pod ]
+        [ div [ podName ]
+            (case List.head item.spec.containers of
+                Just stuff ->
+                    [ text stuff.name ]
+
+                Nothing ->
+                    [ text "lame" ]
+            )
         ]
 
 
