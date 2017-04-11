@@ -26,7 +26,7 @@ view model =
                         )
 
                     Nothing ->
-                        [ div [] [ text "👀 Finding your services..." ] ]
+                        [ div [ loadingMessage ] [ text "👀" ] ]
                 )
             ]
         ]
@@ -103,3 +103,13 @@ pod =
 podName =
     style
         [ ( "font-size", "18px" ) ]
+
+
+loadingMessage =
+    style
+        [ ( "display", "flex" )
+        , ( "flex", "1" )
+        , ( "justify-content", "center" )
+        , ( "align-items", "center" )
+        , ( "min-height", "100px" )
+        ]
