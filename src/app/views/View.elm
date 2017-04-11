@@ -1,9 +1,11 @@
 module View exposing (..)
 
-import Action exposing (Msg)
+import Action exposing (Msg, Msg(UpdateServiceFilter))
 import Html exposing (Html, div, img, input, text)
 import Html.Attributes exposing (placeholder, src, style)
+import Html.Events exposing (onInput)
 import Model exposing (Model)
+import Service exposing (Service)
 
 
 view : Model -> Html Msg
@@ -12,14 +14,14 @@ view model =
         [ div [ content ]
             [ div [ header ]
                 [ div [ title ] [ text "Dashboard" ]
-                , input [ searchInput, placeholder "Search by service name" ] []
+                , input [ searchInput, placeholder "Search by service name...", onInput UpdateServiceFilter ] []
                 ]
             , div [ pods ]
                 (case model.pods of
                     Just response ->
                         (case response of
                             Result.Ok res ->
-                                List.map renderPod res.services
+                                List.map renderPod (List.filter (filterServicesByName model.serviceFilter) res.services)
 
                             Result.Err _ ->
                                 [ div [] [ text "Oh noes! 😰" ] ]
@@ -32,6 +34,12 @@ view model =
         ]
 
 
+filterServicesByName : String -> Service -> Bool
+filterServicesByName query service =
+    String.contains query service.name
+
+
+renderPod : Service -> Html Msg
 renderPod item =
     div
         [ pod
