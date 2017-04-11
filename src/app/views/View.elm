@@ -1,6 +1,7 @@
 module View exposing (..)
 
 import Constants exposing (Msg, Msg(UpdateServiceFilter))
+import Fuzzy
 import Html exposing (Html, div, img, input, text)
 import Html.Attributes exposing (placeholder, src, style)
 import Html.Events exposing (onInput)
@@ -34,9 +35,14 @@ view model =
         ]
 
 
+getFuzzyResults : String -> String -> Int
+getFuzzyResults query service =
+    Fuzzy.match [] [] query service |> .score
+
+
 filterServicesByName : String -> Service -> Bool
 filterServicesByName query service =
-    String.contains query service.name
+    (getFuzzyResults query service.name) < 500
 
 
 renderPod : Service -> Html Msg
@@ -87,6 +93,7 @@ renderPod item =
         ]
 
 
+container : Html.Attribute msg
 container =
     style
         [ ( "padding", "10px" )
@@ -95,12 +102,14 @@ container =
         ]
 
 
+content : Html.Attribute msg
 content =
     style
         [ ( "margin", "0 auto" )
         ]
 
 
+header : Html.Attribute msg
 header =
     style
         [ ( "font-size", "40px" )
@@ -112,15 +121,18 @@ header =
         ]
 
 
+title : Html.Attribute msg
 title =
     style [ ( "font-size", "24px" ) ]
 
 
+searchInput : Html.Attribute msg
 searchInput =
     style
         [ ( "flex-basis", "200px" ) ]
 
 
+pods : Html.Attribute msg
 pods =
     style
         [ ( "display", "flex" )
@@ -130,6 +142,7 @@ pods =
         ]
 
 
+pod : Html.Attribute msg
 pod =
     style
         [ ( "display", "flex" )
@@ -146,10 +159,12 @@ pod =
         ]
 
 
+pod_healthy : Html.Attribute msg
 pod_healthy =
     style []
 
 
+pod_warning : Html.Attribute msg
 pod_warning =
     style
         [ ( "background-color", "#FF9800" )
@@ -157,6 +172,7 @@ pod_warning =
         ]
 
 
+pod_error : Html.Attribute msg
 pod_error =
     style
         [ ( "background-color", "#F44336" )
@@ -164,6 +180,7 @@ pod_error =
         ]
 
 
+podName : Html.Attribute msg
 podName =
     style
         [ ( "display", "flex" )
@@ -172,6 +189,7 @@ podName =
         ]
 
 
+loadingMessage : Html.Attribute msg
 loadingMessage =
     style
         [ ( "display", "flex" )
@@ -182,6 +200,7 @@ loadingMessage =
         ]
 
 
+statusIndicators : Html.Attribute msg
 statusIndicators =
     style
         [ ( "display", "flex" )
@@ -191,6 +210,7 @@ statusIndicators =
         ]
 
 
+statusIndicator : Html.Attribute msg
 statusIndicator =
     style
         [ ( "display", "flex" )
@@ -206,18 +226,21 @@ statusIndicator =
         ]
 
 
+statusIndicator_healthy : Html.Attribute msg
 statusIndicator_healthy =
     style
         [ ( "background-color", "#4CAF50" )
         ]
 
 
+statusIndicator_warning : Html.Attribute msg
 statusIndicator_warning =
     style
         [ ( "background-color", "#FF9800" )
         ]
 
 
+statusIndicator_warning_active : Html.Attribute msg
 statusIndicator_warning_active =
     style
         [ ( "background-color", "#FFFFFF" )
@@ -225,6 +248,7 @@ statusIndicator_warning_active =
         ]
 
 
+statusIndicator_error : Html.Attribute msg
 statusIndicator_error =
     style
         [ ( "background-color", "#FFFFFF" )
@@ -232,6 +256,7 @@ statusIndicator_error =
         ]
 
 
+antialiased : Html.Attribute msg
 antialiased =
     style
         [ ( "-webkit-font-smoothing", "antialiased" )
@@ -239,5 +264,6 @@ antialiased =
         ]
 
 
+noStyle : Html.Attribute msg
 noStyle =
     style []
