@@ -22,11 +22,11 @@ view model =
                                 List.map renderPod res.items
 
                             Result.Err _ ->
-                                [ div [] [ text "oh noes!" ] ]
+                                [ div [] [ text "Oh noes! 😰" ] ]
                         )
 
                     Nothing ->
-                        [ div [] [ text "loading..." ] ]
+                        [ div [] [ text "👀 Finding your services..." ] ]
                 )
             ]
         ]
@@ -40,7 +40,7 @@ renderPod item =
                     [ text stuff.name ]
 
                 Nothing ->
-                    [ text "lame" ]
+                    [ text "No services found 😿" ]
             )
         ]
 
@@ -54,8 +54,7 @@ container =
 
 content =
     style
-        [ ( "max-width", "1100px" )
-        , ( "margin", "0 auto" )
+        [ ( "margin", "0 auto" )
         ]
 
 
@@ -91,6 +90,7 @@ pods =
 pod =
     style
         [ ( "flex-grow", "1" )
+        , ( "width", "350px" )
         , ( "padding", "20px" )
         , ( "margin", "5px" )
         , ( "border", "1px solid #EFEFEF" )
