@@ -34,7 +34,7 @@ view model =
 
 renderPod item =
     div [ pod ]
-        [ div [ podName ]
+        [ div [ podName, antialiased ]
             (case List.head item.spec.containers of
                 Just stuff ->
                     [ text stuff.name ]
