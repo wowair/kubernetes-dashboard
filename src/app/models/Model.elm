@@ -1,10 +1,10 @@
 module Model exposing (..)
 
-import Podlist exposing (PodlistResponse)
+import Service exposing (ServiceResponse)
 
 
 type alias Model =
     { message : String
     , logo : String
-    , pods : Maybe PodlistResponse
+    , pods : Maybe ServiceResponse
     }

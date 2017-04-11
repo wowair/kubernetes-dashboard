@@ -99,6 +99,30 @@ const PodItemStatusCondition = new GraphQLObjectType({
   },
 });
 
+const PodItemStatusContainerStatusStateWaitingState = new GraphQLObjectType({
+  name: 'PodItemStatusContainerStatusStateWaitingState',
+  fields: {
+    message: {
+      type: GraphQLString,
+    },
+    reason: {
+      type: GraphQLString,
+    },
+  },
+});
+
+const PodItemStatusContainerStatusStateTerminatedState = new GraphQLObjectType({
+  name: 'PodItemStatusContainerStatusStateTerminatedState',
+  fields: {
+    startedAt: {
+      type: GraphQLString,
+    },
+    exitCode: {
+      type: GraphQLInt,
+    },
+  },
+});
+
 const PodItemStatusContainerStatusStateRunningState = new GraphQLObjectType({
   name: 'PodItemStatusContainerStatusStateRunningState',
   fields: {
@@ -113,6 +137,12 @@ const PodItemStatusContainerStatusState = new GraphQLObjectType({
   fields: {
     running: {
       type: PodItemStatusContainerStatusStateRunningState,
+    },
+    terminated: {
+      type: PodItemStatusContainerStatusStateTerminatedState,
+    },
+    waiting: {
+      type: PodItemStatusContainerStatusStateWaitingState,
     },
   },
 });
@@ -213,6 +243,33 @@ const PodList = new GraphQLObjectType({
   },
 });
 
+const Service = new GraphQLObjectType({
+  name: 'Service',
+  fields: {
+    name: {
+      type: GraphQLString,
+    },
+    healthy: {
+      type: GraphQLInt,
+    },
+    warning: {
+      type: GraphQLInt,
+    },
+    error: {
+      type: GraphQLInt,
+    },
+  },
+});
+
+const ServiceList = new GraphQLObjectType({
+  name: 'ServiceList',
+  fields: {
+    services: {
+      type: new GraphQLList(Service),
+    },
+  },
+});
+
 module.exports = new GraphQLSchema({
   query: new GraphQLObjectType({
     name: 'Root',
@@ -223,6 +280,80 @@ module.exports = new GraphQLSchema({
           return fetch(
             'http://localhost:8001/api/v1/namespaces/default/pods'
           ).then(res => res.json());
+        },
+      },
+      services: {
+        type: ServiceList,
+        resolve: () => {
+          return fetch('http://localhost:8001/api/v1/namespaces/default/pods')
+            .then(res => res.json())
+            .then(res => {
+              const servicesWithNumberOfPods = res.items.reduce(
+                (accumulated, service) => {
+                  const serviceName = service.spec &&
+                    service.spec.containers &&
+                    service.spec.containers.filter(
+                      service => service.name !== 'getready'
+                    )[0].name;
+                  if (service.status.phase === 'Pending') {
+                    if (
+                      service.status.containerStatuses[0].state.waiting &&
+                      (service.status.containerStatuses[
+                        0
+                      ].state.waiting.reason === 'RunContainerError' ||
+                        service.status.containerStatuses[
+                          0
+                        ].state.waiting.reason === 'ImagePullBackoff')
+                    ) {
+                      return Object.assign(accumulated, {
+                        [serviceName]: Object.assign(
+                          accumulated[serviceName] || {},
+                          {
+                            error: accumulated[serviceName] &&
+                              accumulated[serviceName].error
+                              ? accumulated[serviceName].error + 1
+                              : 1,
+                          }
+                        ),
+                      });
+                    }
+                  }
+                  if (!service.status.containerStatuses[0].ready) {
+                    return Object.assign(accumulated, {
+                      [serviceName]: Object.assign(
+                        accumulated[serviceName] || {},
+                        {
+                          warning: accumulated[serviceName] &&
+                            accumulated[serviceName].warning
+                            ? accumulated[serviceName].warning + 1
+                            : 1,
+                        }
+                      ),
+                    });
+                  }
+                  return Object.assign(accumulated, {
+                    [serviceName]: Object.assign(
+                      accumulated[serviceName] || {},
+                      {
+                        healthy: accumulated[serviceName] &&
+                          accumulated[serviceName].healthy
+                          ? accumulated[serviceName].healthy + 1
+                          : 1,
+                      }
+                    ),
+                  });
+                },
+                {}
+              );
+              return {
+                services: Object.keys(servicesWithNumberOfPods).map(key => ({
+                  name: key,
+                  healthy: servicesWithNumberOfPods[key].healthy || 0,
+                  warning: servicesWithNumberOfPods[key].warning || 0,
+                  error: servicesWithNumberOfPods[key].error || 0,
+                })),
+              };
+            });
         },
       },
     },

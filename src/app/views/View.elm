@@ -19,7 +19,7 @@ view model =
                     Just response ->
                         (case response of
                             Result.Ok res ->
-                                List.map renderPod res.items
+                                List.map renderPod res.services
 
                             Result.Err _ ->
                                 [ div [] [ text "oh noes!" ] ]
@@ -35,13 +35,11 @@ view model =
 renderPod item =
     div [ pod ]
         [ div [ podName ]
-            (case List.head item.spec.containers of
-                Just stuff ->
-                    [ text stuff.name ]
-
-                Nothing ->
-                    [ text "lame" ]
-            )
+            [ text item.name
+            , item.healthy |> toString |> text
+            , item.warning |> toString |> text
+            , item.error |> toString |> text
+            ]
         ]
 
 
