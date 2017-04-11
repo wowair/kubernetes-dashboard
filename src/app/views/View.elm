@@ -34,11 +34,12 @@ view model =
 
 renderPod item =
     div [ pod ]
-        [ div [ podName ]
-            [ text item.name
-            , item.healthy |> toString |> text
-            , item.warning |> toString |> text
-            , item.error |> toString |> text
+        [ div [ podName, antialiased ]
+            [ text item.name ]
+        , div [ statusIndicators ]
+            [ div [ statusIndicator, statusIndicator_healthy, antialiased ] [ item.healthy |> toString |> text ]
+            , div [ statusIndicator, statusIndicator_warning, antialiased ] [ item.warning |> toString |> text ]
+            , div [ statusIndicator, statusIndicator_error, antialiased ] [ item.error |> toString |> text ]
             ]
         ]
 
