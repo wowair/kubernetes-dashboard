@@ -11,6 +11,17 @@ type alias Podlist =
 
 type alias PodItem =
     { status : PodItemStatus
+    , spec : PodItemSpec
+    }
+
+
+type alias PodItemSpec =
+    { containers : List PodItemContainer
+    }
+
+
+type alias PodItemContainer =
+    { name : String
     }
 
 
@@ -55,9 +66,17 @@ podlistQuery =
             object PodItemStatus
                 |> with (field "containerStatuses" [] (list containerStatuses))
 
+        container_ =
+            object PodItemContainer |> with (field "name" [] string)
+
+        podItemSpec =
+            object PodItemSpec
+                |> with (field "containers" [] (list container_))
+
         podItem =
             object PodItem
-                |> with (field "status" [] (podItemStatus))
+                |> with (field "status" [] podItemStatus)
+                |> with (field "spec" [] podItemSpec)
 
         podlist =
             object Podlist

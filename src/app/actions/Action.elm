@@ -1,12 +1,12 @@
 module Action exposing (..)
 
 import Model exposing (Model)
-import Podlist exposing (PodlistResponse)
+import Service exposing (ServiceResponse)
 
 
 type Msg
     = NoOp
-    | ReceiveQueryResponse PodlistResponse
+    | ReceiveQueryResponse ServiceResponse
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )

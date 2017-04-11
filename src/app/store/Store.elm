@@ -4,7 +4,7 @@ import Action exposing (Msg)
 import GraphQL.Client.Http as GraphQLClient
 import GraphQL.Request.Builder exposing (Query, Request)
 import Model exposing (Model)
-import Podlist exposing (podlistQuery)
+import Service exposing (servicesQuery)
 import Task exposing (Task)
 
 
@@ -13,12 +13,12 @@ sendQueryRequest request =
     GraphQLClient.sendQuery "http://localhost:4000/graphql" request
 
 
-sendPodlistQuery : Cmd Msg
-sendPodlistQuery =
-    sendQueryRequest podlistQuery
+sendServiceQuery : Cmd Msg
+sendServiceQuery =
+    sendQueryRequest servicesQuery
         |> Task.attempt Action.ReceiveQueryResponse
 
 
-init : String -> ( Model, Cmd Msg )
-init path =
-    ( { message = "Your Elm App is working !", logo = path, pods = Nothing }, sendPodlistQuery )
+init : ( Model, Cmd Msg )
+init =
+    ( { pods = Nothing }, sendServiceQuery )
