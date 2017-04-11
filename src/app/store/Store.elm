@@ -21,4 +21,4 @@ sendServiceQuery =
 
 init : String -> ( Model, Cmd Msg )
 init path =
-    ( { message = "Your Elm App is working !", logo = path, pods = Nothing }, sendServiceQuery )
+    ( { pods = Nothing }, sendServiceQuery )
