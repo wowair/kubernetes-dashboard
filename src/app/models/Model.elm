@@ -5,4 +5,5 @@ import Service exposing (ServiceResponse)
 
 type alias Model =
     { pods : Maybe ServiceResponse
+    , serviceFilter : String
     }

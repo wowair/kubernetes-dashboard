@@ -21,4 +21,8 @@ sendServiceQuery =
 
 init : ( Model, Cmd Msg )
 init =
-    ( { pods = Nothing }, sendServiceQuery )
+    ( { pods = Nothing
+      , serviceFilter = ""
+      }
+    , sendServiceQuery
+    )

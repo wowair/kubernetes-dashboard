@@ -7,6 +7,7 @@ import Service exposing (ServiceResponse)
 type Msg
     = NoOp
     | ReceiveQueryResponse ServiceResponse
+    | UpdateServiceFilter String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -17,3 +18,6 @@ update msg model =
 
         ReceiveQueryResponse response ->
             ( { model | pods = Just response }, Cmd.none )
+
+        UpdateServiceFilter string ->
+            ( { model | serviceFilter = string }, Cmd.none )
