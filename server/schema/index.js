@@ -220,8 +220,9 @@ module.exports = new GraphQLSchema({
       pods: {
         type: PodList,
         resolve: () => {
-          return fetch('http://localhost:8001/api/v1/pods').then(res =>
-            res.json());
+          return fetch(
+            'http://localhost:8001/api/v1/namespaces/default/pods'
+          ).then(res => res.json());
         },
       },
     },
