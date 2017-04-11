@@ -22,11 +22,11 @@ view model =
                                 List.map renderPod res.services
 
                             Result.Err _ ->
-                                [ div [] [ text "oh noes!" ] ]
+                                [ div [] [ text "Oh noes! 😰" ] ]
                         )
 
                     Nothing ->
-                        []
+                        [ div [ loadingMessage ] [ text "👀" ] ]
                 )
             ]
         ]
@@ -52,8 +52,7 @@ container =
 
 content =
     style
-        [ ( "max-width", "1100px" )
-        , ( "margin", "0 auto" )
+        [ ( "margin", "0 auto" )
         ]
 
 
@@ -88,7 +87,10 @@ pods =
 
 pod =
     style
-        [ ( "flex-grow", "1" )
+        [ ( "display", "flex" )
+        , ( "justify-content", "space-between" )
+        , ( "flex-grow", "1" )
+        , ( "width", "350px" )
         , ( "padding", "20px" )
         , ( "margin", "5px" )
         , ( "border", "1px solid #EFEFEF" )
@@ -98,6 +100,79 @@ pod =
         ]
 
 
+pod_warning =
+    style
+        [ ( "background-color", "#FFC107" )
+        , ( "color", "#FFFFFF" )
+        ]
+
+
+pod_error =
+    style
+        [ ( "background-color", "#F44336" )
+        , ( "color", "#FFFFFF" )
+        ]
+
+
 podName =
     style
         [ ( "font-size", "18px" ) ]
+
+
+loadingMessage =
+    style
+        [ ( "display", "flex" )
+        , ( "flex", "1" )
+        , ( "justify-content", "center" )
+        , ( "align-items", "center" )
+        , ( "min-height", "100px" )
+        ]
+
+
+statusIndicators =
+    style
+        [ ( "display", "flex" )
+        , ( "flex-direction", "row" )
+        , ( "justify-content", "flex-end" )
+        , ( "align-items", "center" )
+        ]
+
+
+statusIndicator =
+    style
+        [ ( "display", "flex" )
+        , ( "justify-content", "center" )
+        , ( "align-items", "center" )
+        , ( "width", "24px" )
+        , ( "height", "24px" )
+        , ( "margin", "0 2px" )
+        , ( "border-radius", "24px" )
+        , ( "font-size", "12px" )
+        , ( "font-weight", "700" )
+        , ( "color", "#FFFFFF" )
+        ]
+
+
+statusIndicator_healthy =
+    style
+        [ ( "background-color", "#4CAF50" )
+        ]
+
+
+statusIndicator_warning =
+    style
+        [ ( "background-color", "#FFC107" )
+        ]
+
+
+statusIndicator_error =
+    style
+        [ ( "background-color", "#F44336" )
+        ]
+
+
+antialiased =
+    style
+        [ ( "-webkit-font-smoothing", "antialiased" )
+        , ( "-moz-osx-font-smoothing", "grayscale" )
+        ]
