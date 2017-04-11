@@ -42,6 +42,11 @@ renderPod item =
                 Nothing ->
                     [ text "No services found 😿" ]
             )
+        , div [ statusIndicators ]
+            [ div [ statusIndicator, statusIndicator_healthy, antialiased ] [ text "3" ]
+            , div [ statusIndicator, statusIndicator_warning, antialiased ] [ text "3" ]
+            , div [ statusIndicator, statusIndicator_error, antialiased ] [ text "3" ]
+            ]
         ]
 
 
@@ -89,7 +94,9 @@ pods =
 
 pod =
     style
-        [ ( "flex-grow", "1" )
+        [ ( "display", "flex" )
+        , ( "justify-content", "space-between" )
+        , ( "flex-grow", "1" )
         , ( "width", "350px" )
         , ( "padding", "20px" )
         , ( "margin", "5px" )
@@ -97,6 +104,20 @@ pod =
         , ( "border-radius", "4px" )
         , ( "box-shadow", "0 2px 2px rgba(0,0,0,0.02)" )
         , ( "text-align", "left" )
+        ]
+
+
+pod_warning =
+    style
+        [ ( "background-color", "#FFC107" )
+        , ( "color", "#FFFFFF" )
+        ]
+
+
+pod_error =
+    style
+        [ ( "background-color", "#F44336" )
+        , ( "color", "#FFFFFF" )
         ]
 
 
@@ -112,4 +133,53 @@ loadingMessage =
         , ( "justify-content", "center" )
         , ( "align-items", "center" )
         , ( "min-height", "100px" )
+        ]
+
+
+statusIndicators =
+    style
+        [ ( "display", "flex" )
+        , ( "flex-direction", "row" )
+        , ( "justify-content", "flex-end" )
+        , ( "align-items", "center" )
+        ]
+
+
+statusIndicator =
+    style
+        [ ( "display", "flex" )
+        , ( "justify-content", "center" )
+        , ( "align-items", "center" )
+        , ( "width", "24px" )
+        , ( "height", "24px" )
+        , ( "margin", "0 2px" )
+        , ( "border-radius", "24px" )
+        , ( "font-size", "12px" )
+        , ( "font-weight", "700" )
+        , ( "color", "#FFFFFF" )
+        ]
+
+
+statusIndicator_healthy =
+    style
+        [ ( "background-color", "#4CAF50" )
+        ]
+
+
+statusIndicator_warning =
+    style
+        [ ( "background-color", "#FFC107" )
+        ]
+
+
+statusIndicator_error =
+    style
+        [ ( "background-color", "#F44336" )
+        ]
+
+
+antialiased =
+    style
+        [ ( "-webkit-font-smoothing", "antialiased" )
+        , ( "-moz-osx-font-smoothing", "grayscale" )
         ]
