@@ -33,13 +33,48 @@ view model =
 
 
 renderPod item =
-    div [ pod ]
+    div
+        [ pod
+        , if item.error > 0 then
+            pod_error
+          else if item.warning > 0 then
+            pod_warning
+          else
+            pod_healthy
+        ]
         [ div [ podName, antialiased ]
             [ text item.name ]
         , div [ statusIndicators ]
-            [ div [ statusIndicator, statusIndicator_healthy, antialiased ] [ item.healthy |> toString |> text ]
-            , div [ statusIndicator, statusIndicator_warning, antialiased ] [ item.warning |> toString |> text ]
-            , div [ statusIndicator, statusIndicator_error, antialiased ] [ item.error |> toString |> text ]
+            [ if item.healthy > 0 then
+                div [ statusIndicator, statusIndicator_healthy, antialiased ] [ item.healthy |> toString |> text ]
+              else
+                div [] []
+            , if item.warning > 0 then
+                div
+                    [ statusIndicator
+                    , statusIndicator_warning
+                    , antialiased
+                    , if item.error == 0 then
+                        statusIndicator_warning_active
+                      else
+                        noStyle
+                    ]
+                    [ item.warning |> toString |> text ]
+              else
+                div [] []
+            , if item.error > 0 then
+                div
+                    [ statusIndicator
+                    , statusIndicator_error
+                    , antialiased
+                    , if item.error == 0 then
+                        statusIndicator_warning_active
+                      else
+                        noStyle
+                    ]
+                    [ item.error |> toString |> text ]
+              else
+                div [] []
             ]
         ]
 
@@ -47,7 +82,8 @@ renderPod item =
 container =
     style
         [ ( "padding", "10px" )
-        , ( "background-color", "#FEFEFE" )
+        , ( "background-color", "#F9F9F9" )
+        , ( "min-height", "100vh" )
         ]
 
 
@@ -59,7 +95,7 @@ content =
 
 header =
     style
-        [ ( "font-size", "24px" )
+        [ ( "font-size", "40px" )
         , ( "display", "flex" )
         , ( "justify-content", "space-between" )
         , ( "padding", "15px 0" )
@@ -98,12 +134,17 @@ pod =
         , ( "border-radius", "4px" )
         , ( "box-shadow", "0 2px 2px rgba(0,0,0,0.02)" )
         , ( "text-align", "left" )
+        , ( "background-color", "#FFFFFF" )
         ]
+
+
+pod_healthy =
+    style []
 
 
 pod_warning =
     style
-        [ ( "background-color", "#FFC107" )
+        [ ( "background-color", "#FF9800" )
         , ( "color", "#FFFFFF" )
         ]
 
@@ -117,7 +158,10 @@ pod_error =
 
 podName =
     style
-        [ ( "font-size", "18px" ) ]
+        [ ( "display", "flex" )
+        , ( "align-items", "center" )
+        , ( "font-size", "22px" )
+        ]
 
 
 loadingMessage =
@@ -144,11 +188,11 @@ statusIndicator =
         [ ( "display", "flex" )
         , ( "justify-content", "center" )
         , ( "align-items", "center" )
-        , ( "width", "24px" )
-        , ( "height", "24px" )
+        , ( "width", "30px" )
+        , ( "height", "30px" )
         , ( "margin", "0 2px" )
-        , ( "border-radius", "24px" )
-        , ( "font-size", "12px" )
+        , ( "border-radius", "30px" )
+        , ( "font-size", "16px" )
         , ( "font-weight", "700" )
         , ( "color", "#FFFFFF" )
         ]
@@ -162,13 +206,21 @@ statusIndicator_healthy =
 
 statusIndicator_warning =
     style
-        [ ( "background-color", "#FFC107" )
+        [ ( "background-color", "#FF9800" )
+        ]
+
+
+statusIndicator_warning_active =
+    style
+        [ ( "background-color", "#FFFFFF" )
+        , ( "color", "#FF9800" )
         ]
 
 
 statusIndicator_error =
     style
-        [ ( "background-color", "#F44336" )
+        [ ( "background-color", "#FFFFFF" )
+        , ( "color", "#F44336" )
         ]
 
 
@@ -177,3 +229,7 @@ antialiased =
         [ ( "-webkit-font-smoothing", "antialiased" )
         , ( "-moz-osx-font-smoothing", "grayscale" )
         ]
+
+
+noStyle =
+    style []
