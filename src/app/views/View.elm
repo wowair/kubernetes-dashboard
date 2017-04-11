@@ -1,6 +1,6 @@
 module View exposing (..)
 
-import Action exposing (Msg, Msg(UpdateServiceFilter))
+import Constants exposing (Msg, Msg(UpdateServiceFilter))
 import Html exposing (Html, div, img, input, text)
 import Html.Attributes exposing (placeholder, src, style)
 import Html.Events exposing (onInput)

@@ -1,6 +1,7 @@
 module Main exposing (..)
 
-import Action exposing (Msg, update)
+import Action exposing (update)
+import Constants exposing (Msg)
 import Html exposing (program)
 import Model exposing (Model)
 import Store exposing (init)
