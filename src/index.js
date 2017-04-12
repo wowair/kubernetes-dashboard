@@ -1,3 +1,4 @@
+require('./index.css');
 require('./main.css');
 var Elm = require('./app/Main.elm');
 
