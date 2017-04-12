@@ -1,0 +1,114 @@
+.dashboardContainer {
+    padding: 10px;
+    background-color: #F9F9F9;
+    min-height: 100vh;
+}
+
+.dashboardContent {
+    margin: 0px auto;
+}
+
+.dashboardHeader {
+    font-size: 40px;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0px;
+    margin-top: 10px;
+    border-bottom: 1px solid #EFEFEF;
+}
+
+.dashboardTitle {
+    font-size: 24px;
+}
+
+.dashboardSearchInput {
+    flex-basis: 200px;
+}
+
+.dashboardPods {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 10px 0px;
+}
+
+.dashboardPod {
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+    width: 350px;
+    padding: 20px;
+    margin: 5px;
+    border: 1px solid #EFEFEF;
+    border-radius: 4px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.02);
+    text-align: left;
+    background-color: #FFFFFF;
+}
+
+.dashboardPodWarning {
+    background-color: #FF9800;
+    color: #FFFFFF;
+}
+
+.dashboardPodError {
+    background-color: #F44336;
+    color: #FFFFFF;
+}
+
+.dashboardPodName {
+    display: flex;
+    align-items: center;
+    font-size: 22px;
+}
+
+.dashboardLoadingMessage {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    min-height: 100px;
+}
+
+.dashboardStatusIndicators {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.dashboardStatusIndicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    margin: 0px 2px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #FFFFFF;
+}
+
+.dashboardStatusIndicatorHealthy {
+    background-color: #4CAF50;
+}
+
+.dashboardStatusIndicatorWarning {
+    background-color: #FF9800;
+}
+
+.dashboardStatusIndicatorWarningActive {
+    background-color: #FFFFFF;
+    color: #FF9800;
+}
+
+.dashboardStatusIndicatorError {
+    background-color: #FFFFFF;
+    color: #F44336;
+}
+
+.dashboardAntialiased {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
