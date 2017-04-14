@@ -11,9 +11,11 @@
         "src/app/api",
         "src/app/graphql",
         "src/app/models",
+        "src/app/shared",
         "src/app/store",
         "src/app/subscriptions",
-        "src/app/views"
+        "src/app/views",
+        "src/app/views/home"
     ],
     "exposed-modules": [],
     "dependencies": {

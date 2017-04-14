@@ -5,7 +5,6 @@ import Time exposing (Time)
 
 
 type Msg
-    = NoOp
-    | ReceiveQueryResponse ServiceResponse
+    = ReceiveQueryResponse ServiceResponse
     | UpdateServiceFilter String
     | Poll Time

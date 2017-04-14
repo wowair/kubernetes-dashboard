@@ -108,7 +108,7 @@
     color: #F44336;
 }
 
-.dashboardAntialiased {
+.Antialiased {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }

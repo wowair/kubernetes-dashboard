@@ -1,10 +1,11 @@
-module ViewCss exposing (..)
+module Home.Styles exposing (..)
 
 import Css exposing (..)
 import Css.Namespace exposing (namespace)
+import Shared.Styles as SharedCSS
 
 
-type CssClasses
+type PodClasses
     = Container
     | Content
     | Header
@@ -23,7 +24,6 @@ type CssClasses
     | StatusIndicatorWarning
     | StatusIndicatorWarningActive
     | StatusIndicatorError
-    | Antialiased
     | NoStyle
 
 
@@ -119,10 +119,6 @@ css =
         , class StatusIndicatorError
             [ backgroundColor (hex "FFFFFF")
             , color (hex "F44336")
-            ]
-        , class Antialiased
-            [ property "-webkit-font-smoothing" "antialiased"
-            , property "-moz-osx-font-smoothing" "grayscale"
             ]
         , class NoStyle
             []

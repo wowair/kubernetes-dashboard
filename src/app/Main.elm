@@ -6,7 +6,7 @@ import Html exposing (program)
 import Model exposing (Model)
 import Store exposing (init)
 import Subscription exposing (subscriptions)
-import View exposing (view)
+import Home.View exposing (view)
 
 
 main : Program Never Model Msg
