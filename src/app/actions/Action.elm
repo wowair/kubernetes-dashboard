@@ -8,9 +8,6 @@ import ServiceQuery exposing (sendServiceQuery)
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        NoOp ->
-            ( model, Cmd.none )
-
         ReceiveQueryResponse response ->
             ( { model | pods = Just response }, Cmd.none )
 
